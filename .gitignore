@@ -1,0 +1,5 @@
+# Build file
+bin/
+
+# Qt creator
+CMakeLists.txt.user
