@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
     // Do something
     Film film(500, 500);
 
-    for (int i = 0; i != 500; ++i) {
-        for (int j = 0; j != 500; ++j) {
+    for (size_t i = 0; i != 500; ++i) {
+        for (size_t j = 0; j != 500; ++j) {
             film.commit(i, j, ColorRGB(i / 500.f, j / 500.f, 0));
         }
     }

@@ -8,12 +8,12 @@
 class Film
 {
 public:
-    Film(int width, int height);
+    Film(size_t width, size_t height);
 
-    void setResolution(int width, int height) noexcept;
+    void setResolution(size_t width, size_t height) noexcept;
 
     // Will write the color to (x, y) on the image
-    void commit(int x, int y, const ColorRGB &color);
+    void commit(size_t x, size_t y, const ColorRGB &color);
 
     /**
      * \brief Output image from buffer to a file.
@@ -21,8 +21,8 @@ public:
     void writeImage();
 
 private:
-    int width_;
-    int height_;
+    size_t width_;
+    size_t height_;
 
     std::vector<ColorRGB> buffer_;
 };
