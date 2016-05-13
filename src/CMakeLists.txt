@@ -27,7 +27,14 @@ else()
     include_directories(${FREEIMAGE_INCLUDE_DIRS})
 endif()
 
+set_subdir_sources(
+    imageExportor.hpp
+    imageExportor.cpp
+    )
+
+add_library (Source_Code ${SRC_LIST})
 add_executable(RayTracer main.cpp)
+target_link_libraries (RayTracer Source_Code)
 
 # FreeImage Library
 if (WIN32)
@@ -46,5 +53,4 @@ if (WIN32)
         add_custom_command(TARGET RayTracer POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.dll" "$<TARGET_FILE_DIR:RayTracer>")
 endif()
 
-set_subdir_sources(
-    )
+
