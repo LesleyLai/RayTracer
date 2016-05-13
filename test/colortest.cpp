@@ -1,7 +1,5 @@
 #include "catch.hpp"
 
-#include <iostream>
-
 #include "../src/color.hpp"
 
 TEST_CASE( "RGB float colors", "[Color]" ) {

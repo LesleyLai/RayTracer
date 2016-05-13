@@ -56,11 +56,11 @@ target_link_libraries (RayTracer Source_Code)
 
 # FreeImage Library
 if (WIN32)
-    target_link_libraries(RayTracer "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.lib")
+    target_link_libraries(Source_Code "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.lib")
 elseif (APPLE)
     # TODO: Support mac
 else()
-    target_link_libraries(RayTracer ${FREEIMAGE_LIBRARY})
+    target_link_libraries(Source_Code ${FREEIMAGE_LIBRARY})
 endif()
 
 source_group(required REGULAR_EXPRESSION required/.*)
@@ -68,7 +68,7 @@ source_group(required\\ REGULAR_EXPRESSION required/pass/.*)
 
 # Copy dlls
 if (WIN32)
-        add_custom_command(TARGET RayTracer POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.dll" "$<TARGET_FILE_DIR:RayTracer>")
+        add_custom_command(TARGET Source_Code POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.dll" "$<TARGET_FILE_DIR:RayTracer>")
 endif()
 
 

@@ -11,7 +11,7 @@ ImageExportor::ImageExportor() {
 
 }
 
-void ImageExportor::exportImage(int width, int height) {
+void ImageExportor::exportImage(int width, int height, std::vector<ColorRGB> &buffer) {
     FreeImage_Initialise();
 
     FIBITMAP *bitmap = FreeImage_Allocate(width, height, BIT_PER_PIXEL);
@@ -20,9 +20,10 @@ void ImageExportor::exportImage(int width, int height) {
     RGBQUAD color;
     for (int x = 0; x != width; ++x) {
         for (int y = 0; y != height; ++y) {
-            color.rgbRed = x;
-            color.rgbGreen = y;
-            color.rgbBlue = 0;
+            int index = x + y  * width;
+            color.rgbRed = buffer[index].r * 255;
+            color.rgbGreen = buffer[index].g * 255;
+            color.rgbBlue = buffer[index].b * 255;
             FreeImage_SetPixelColor(bitmap, x, y, &color);
         }
     }

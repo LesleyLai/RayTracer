@@ -8,7 +8,13 @@ int main(int argc, char *argv[]) {
     start_time = std::chrono::system_clock::now();
 
     // Do something
-    Film film(200, 200);
+    Film film(500, 500);
+
+    for (int i = 0; i != 500; ++i) {
+        for (int j = 0; j != 500; ++j) {
+            film.commit(i, j, ColorRGB(i / 500.f, j / 500.f, 0));
+        }
+    }
 
     film.writeImage();
 
