@@ -68,7 +68,8 @@ source_group(required\\ REGULAR_EXPRESSION required/pass/.*)
 
 # Copy dlls
 if (WIN32)
-        add_custom_command(TARGET Source_Code POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.dll" "$<TARGET_FILE_DIR:RayTracer>")
+        add_custom_command(TARGET Source_Code POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.dll" "$<TARGET_FILE_DIR:Source_Code>")
+        add_custom_command(TARGET Test POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeImage/distrib/windows/${EX_PLATFORM_NAME}/FreeImage.dll" "$<TARGET_FILE_DIR:Test>")
 endif()
 
 
