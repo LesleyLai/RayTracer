@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "sampler.hpp"
 
 Sampler::Sampler(int width, int height) :
@@ -6,7 +8,18 @@ Sampler::Sampler(int width, int height) :
 
 }
 
-bool Sampler::getSample(Sample *sample) {
+std::vector<Sample> Sampler::generateSampleSet() {
+     std::vector<Sample> result;
 
-    return false;
+     for (int x = 0; x != width_; ++x) {
+       for (int y = 0; y != height_; ++y) {
+         Sample sample{
+           (x + 0.5f),
+           (y + 0.5f)
+         };
+         result.push_back(sample);
+       }
+     }
+
+     return result;
 }

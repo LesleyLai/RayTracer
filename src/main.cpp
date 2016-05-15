@@ -1,22 +1,15 @@
 #include <iostream>
 #include <chrono>
 
-#include "film.hpp"
+#include "scene/scene.hpp"
 
 int main(int argc, char *argv[]) {
     std::chrono::time_point<std::chrono::system_clock> start_time, end_time;
     start_time = std::chrono::system_clock::now();
 
-    // Do something
-    Film film(500, 500);
+    Scene scene(500, 500);
 
-    for (size_t i = 0; i != 500; ++i) {
-        for (size_t j = 0; j != 500; ++j) {
-            film.commit(i, j, ColorRGB(i / 500.f, j / 500.f, 0));
-        }
-    }
-
-    film.writeImage();
+    scene.render();
 
     end_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end_time - start_time;
