@@ -1,10 +1,9 @@
 #ifndef SAMPLE_HPP
 #define SAMPLE_HPP
 
+#include "glm/glm.hpp"
+
 /// @brief A sample stores a pair of screen coordinate
-struct Sample {
-    float x; ///< The X coordinate of the sample
-    float y; ///< The Y coordinate of the sample
-};
+using Sample = glm::vec2;
 
 #endif // SAMPLE_HPP
