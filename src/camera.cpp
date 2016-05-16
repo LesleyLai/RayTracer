@@ -24,8 +24,10 @@ void Camera::generateRay(const Resolution& resolution, Sample sample, Ray &ray) 
     float d = 1.0f;
 
 
-    float u = -halfSize + size * sample.y / resolution.y;
-    float v = -halfSize + size * sample.x / resolution.x;
+    float u = -halfSize + size * (sample.y / resolution.y);
+
+    float v = (-halfSize + size * sample.x / resolution.x) *
+            (resolution.x / resolution.y);
 
     ray.setOrigin(center_);
     ray.setDirection((d*direction_) + (u*horizontal_) + (v*up_));
