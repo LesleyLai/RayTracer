@@ -22,7 +22,7 @@ public:
      * \param sample
      * \param ray
      */
-    void generateRay(const Resolution &resolution, Sample sample, Ray& ray) const;
+    void generateRay(const Resolution &resolution, const Sample &sample, Ray& ray) const;
 
 private:
     glm::vec3 center_;

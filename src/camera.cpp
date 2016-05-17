@@ -15,20 +15,21 @@ Camera::Camera(
     horizontal_{glm::normalize(glm::cross(direction_, up))}, //u
     up_{glm::cross(horizontal_, direction_)}, //v
     fov_{fov} {
+    // Create the coordinate frame of the camera
 }
 
-void Camera::generateRay(const Resolution& resolution, Sample sample, Ray &ray) const {
-    auto halfAngle = fov_ / 2.0f;
-    auto halfSize = tan(halfAngle);
-    auto size = 2 * halfSize;
-    float d = 1.0f;
+void Camera::generateRay(const Resolution& resolution, const Sample& sample, Ray &ray) const {
+    auto halfAngleY = fov_ / 2;
 
+    auto halfSizeY = tan(halfAngleY);
+    auto halfSizeX = halfSizeY / resolution.y * resolution.x;
 
-    float u = -halfSize + size * (sample.y / resolution.y);
+    auto halsResolutionX = resolution.x / 2;
+    auto halsResolutionY = resolution.y / 2;
 
-    float v = (-halfSize + size * sample.x / resolution.x) *
-            (resolution.x / resolution.y);
+    float u = halfSizeX * (sample.x - halsResolutionX) / (halsResolutionX);
+    float v = halfSizeY * (sample.y - halsResolutionY) / (halsResolutionY);
 
     ray.setOrigin(center_);
-    ray.setDirection((d*direction_) + (u*horizontal_) + (v*up_));
+    ray.setDirection(direction_ + (u*horizontal_) + (v*up_));
 }
