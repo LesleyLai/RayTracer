@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
 #include "../src/camera.hpp"
+#include "../src/math/math.hpp"
 
 using glm::vec3;
 
@@ -27,7 +28,7 @@ TEST_CASE( "Camera ray generation at origin", "[Camera]" ) {
     SECTION( "Generate ray at left side" ) {
         camera.generateRay(resolution1, Sample(0, 10), ray);
         Ray expectation = Ray(origin, lookat - origin);
-        expectation.setDirection(expectation.direction() + left * tanf(fov / 2));
+        expectation.setDirection(lookat - left * tanf(Math::radian(fov / 2)) / 2.0f);
         REQUIRE( ray.origin() == expectation.origin() );
         CHECK( ray.direction().x == Approx(expectation.direction().x) );
         CHECK( ray.direction().y == Approx(expectation.direction().y) );
@@ -35,9 +36,9 @@ TEST_CASE( "Camera ray generation at origin", "[Camera]" ) {
     }
 
     SECTION( "Generate ray at top side" ) {
-        camera.generateRay(resolution1, Sample(10, 0), ray);
+        camera.generateRay(resolution1, Sample(5, 0), ray);
         Ray expectation = Ray(origin, lookat - origin);
-        expectation.setDirection(expectation.direction() - up * tanf(fov / 2));
+        expectation.setDirection(lookat - up * tanf(Math::radian(fov / 2)));
         REQUIRE( ray.origin() == expectation.origin() );
         CHECK( ray.direction().x == Approx(expectation.direction().x) );
         CHECK( ray.direction().y == Approx(expectation.direction().y) );

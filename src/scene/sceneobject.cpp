@@ -1,6 +1,6 @@
 #include "sceneobject.hpp"
 
-SceneObject::SceneObject(Material &material) : material_{material} {
+SceneObject::SceneObject(const Material &material) : material_{material} {
 }
 
 void SceneObject::addPrimitive(std::shared_ptr<Primitive> primitive) {

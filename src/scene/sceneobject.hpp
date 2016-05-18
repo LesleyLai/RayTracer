@@ -12,7 +12,7 @@
  */
 class SceneObject {
 public:
-    SceneObject(Material &material);
+    SceneObject(const Material &material);
 
     /*! \brief Adds a new Primitive to the SceneObject.
      *  \param primitive The primitive to add.

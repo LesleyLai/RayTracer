@@ -19,16 +19,15 @@ Camera::Camera(
 }
 
 void Camera::generateRay(const Resolution& resolution, const Sample& sample, Ray &ray) const {
-    auto halfAngleY = fov_ / 2;
+    auto halfSizeY = tanf(Math::radian(fov_ / 2));
 
-    auto halfSizeY = tan(halfAngleY);
     auto halfSizeX = halfSizeY / resolution.y * resolution.x;
 
-    auto halsResolutionX = resolution.x / 2;
-    auto halsResolutionY = resolution.y / 2;
+    auto halfResolutionX = resolution.x / 2;
+    auto halfResolutionY = resolution.y / 2;
 
-    float u = halfSizeX * (sample.x - halsResolutionX) / (halsResolutionX);
-    float v = halfSizeY * (sample.y - halsResolutionY) / (halsResolutionY);
+    float u = halfSizeX * (sample.x - halfResolutionX) / (halfResolutionX);
+    float v = halfSizeY * (sample.y - halfResolutionY) / (halfResolutionY);
 
     ray.setOrigin(center_);
     ray.setDirection(direction_ + (u*horizontal_) + (v*up_));
