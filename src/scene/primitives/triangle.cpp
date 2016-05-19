@@ -1,7 +1,7 @@
+#include <iostream>
+
 #include "triangle.hpp"
 #include "../../math/math.hpp"
-
-using namespace Math;
 
 Triangle::Triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c) : vertices_ {a, b, c} {
 
@@ -34,9 +34,7 @@ bool Triangle::intersect(const Ray &ray, std::unique_ptr<LocalGeometry> &local, 
     auto gamma = ((a.y - c.y) * p.x + (c.x - a.x) * p.y + a.x * c.y - c.x * a.y) /
             ((a.y - c.y) * b.x + (c.x - a.x) * b.y + a.x * c.y - c.x * a.y);
 
-    if (gamma < 0 || gamma > 1 - beta) return false;
-
-
+    if (gamma < 0 || gamma > (1 - beta)) return false;
 
     last_t_cache = t;
     local = std::unique_ptr<LocalGeometry>(new LocalGeometry(p, n));

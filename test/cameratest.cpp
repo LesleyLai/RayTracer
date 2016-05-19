@@ -16,7 +16,7 @@ TEST_CASE( "Camera ray generation at origin", "[Camera]" ) {
     Ray ray;
 
     Resolution resolution1(10, 20);
-    SECTION( "Generate ray at screen center" ) {
+    SECTION( "Generates ray at screen center" ) {
         camera.generateRay(resolution1, Sample(5, 10), ray);
         Ray expectation = Ray(origin, lookat - origin);
         REQUIRE( ray.origin() == expectation.origin() );
@@ -25,7 +25,7 @@ TEST_CASE( "Camera ray generation at origin", "[Camera]" ) {
         CHECK( ray.direction().z == Approx(expectation.direction().z) );
     }
 
-    SECTION( "Generate ray at left side" ) {
+    SECTION( "Generates ray to left side of the screen" ) {
         camera.generateRay(resolution1, Sample(0, 10), ray);
         Ray expectation = Ray(origin, lookat - origin);
         expectation.setDirection(lookat - left * tanf(Math::radian(fov / 2)) / 2.0f);
@@ -35,7 +35,7 @@ TEST_CASE( "Camera ray generation at origin", "[Camera]" ) {
         CHECK( ray.direction().z == Approx(expectation.direction().z) );
     }
 
-    SECTION( "Generate ray at top side" ) {
+    SECTION( "Generates ray to top side of the screen" ) {
         camera.generateRay(resolution1, Sample(5, 0), ray);
         Ray expectation = Ray(origin, lookat - origin);
         expectation.setDirection(lookat - up * tanf(Math::radian(fov / 2)));
