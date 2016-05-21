@@ -17,7 +17,7 @@ public:
       */
     Ray() :
         origin_{glm::vec3{}},
-        direction_{glm::vec3(0,0, 1)}
+        direction_{glm::vec3(0, 0, 1)}
     {}
 
     /**

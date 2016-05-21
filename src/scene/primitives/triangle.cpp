@@ -7,35 +7,58 @@ Triangle::Triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c) : vertices_ {a, b, c} 
 
 }
 
-bool Triangle::intersect(const Ray &ray, std::unique_ptr<LocalGeometry> &local, float &last_t_cache) const {
-    auto a = vertices_[0];
-    auto b = vertices_[1];
-    auto c = vertices_[2];
+bool Triangle::intersect(const Ray &ray,
+                         std::unique_ptr<LocalGeometry> &local,
+                         float &last_t_cache) const {
+    /*
+     * The implementation of this method consults "Fundamentals Of Computer
+     * Graphics 3rd edition" 4.4.2 Ray-Triangle Intersection as a reference
+     */
+
+    auto vd = ray.direction();
+    auto ve = ray.origin();
+    auto va = vertices_[0];
+    auto vb = vertices_[1];
+    auto vc = vertices_[2];
+
+    auto a = va.x-vb.x;
+    auto b = va.y-vb.y;
+    auto c = va.z-vb.z;
+    auto d = va.x-vc.x;
+    auto e = va.y-vc.y;
+    auto f = va.z-vc.z;
+    auto g = vd.x;
+    auto h = vd.y;
+    auto i = vd.z;
+    auto j = va.x-ve.x;
+    auto k = va.y-ve.y;
+    auto l = va.z-ve.z;
+
+    auto eiMinusHf = e*i - h*f;
+    auto gfMinusDi = g*f - d*i;
+    auto dhMinusEg = d*h - e*g;
+    auto akMinusJb = a*k - j*b;
+    auto jcMinusAl = j*c - a*l;
+    auto blMinusKc = b*l - k*c;
 
 
-    auto e = ray.origin();
-    auto d = ray.direction();
+    float M = a*(eiMinusHf)+b*(gfMinusDi)+c*(dhMinusEg);
+
+    // compute t
+    float t = -(f*akMinusJb + e*jcMinusAl + d*blMinusKc) / M;
+    if ((t < 0) || (t > last_t_cache)) return false;
+
+    // compute gamma
+    float gamma = (i*akMinusJb + h*jcMinusAl + g*blMinusKc) / M;
+    if ((gamma < 0) || (gamma > 1)) return false;
+
+    // compute beta
+    float beta = (j*eiMinusHf + k*gfMinusDi + l*dhMinusEg) / M;
+    if ((beta < 0) || (beta > (1 - gamma))) return false;
+
     auto n = triangleNormal();
 
-    auto tmp = glm::dot(d, n);
-    // Ray is parallel to the triangle plane
-    if (std::abs(tmp) < .001) return false;
-
-    auto t = (glm::dot(a, n) - glm::dot(e, n)) / tmp;
-
-    if (t < 0 || last_t_cache < t) return false;
-    auto p = e + d * t;
-
-    auto beta = ((a.y - b.y) * p.x + (b.x - a.x) * p.y + a.x * b.y - b.x * a.y) /
-            ((a.y - b.y) * c.x + (b.x - a.x) * c.y + a.x * b.y - b.x * a.y);
-
-    if (beta < 0 || beta > 1) return false;
-
-    auto gamma = ((a.y - c.y) * p.x + (c.x - a.x) * p.y + a.x * c.y - c.x * a.y) /
-            ((a.y - c.y) * b.x + (c.x - a.x) * b.y + a.x * c.y - c.x * a.y);
-
-    if (gamma < 0 || gamma > (1 - beta)) return false;
-
+    auto p = ve + t * vd;
     last_t_cache = t;
     local = std::unique_ptr<LocalGeometry>(new LocalGeometry(p, n));
     return true;
