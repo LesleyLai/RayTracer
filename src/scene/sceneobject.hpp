@@ -34,11 +34,19 @@ public:
 
     void setMaterial(const Material &material);
 
+
+    glm::mat4 transform() const;
+    glm::mat4 inverse_transform() const;
+
+    void setTransform(const glm::mat4 &transform);
+
 private:
     Material material_;
 
-    std::vector<std::shared_ptr<Primitive>> primitives_;
+    glm::mat4 transform_;
+    glm::mat4 inverse_transform_;
 
+    std::vector<std::shared_ptr<Primitive>> primitives_;
 };
 
 #endif // SCENEOBJECT_HPP

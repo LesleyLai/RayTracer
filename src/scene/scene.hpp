@@ -62,14 +62,15 @@ public:
     void setSize(int width, int height);
 
 private:
+    size_t width_;
+    size_t height_;
+
     RayTracer rayTracer_;
     Film film_;
 
     std::vector<std::shared_ptr<Camera>> cameras_;
     std::shared_ptr<Camera> main_camera_;
 
-    int width_;
-    int height_;
 
     std::vector<std::shared_ptr<SceneObject>> sceneObjects_;
     std::vector<std::shared_ptr<Light>> lights_;

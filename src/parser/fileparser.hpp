@@ -8,8 +8,10 @@ class Scene;
 
 class FileParser {
 public:
-    static void readfile(std::string filename);
+    static void readfile(const std::string& filename);
 private:
+    static void parse(std::ifstream& input);
+
     template <typename T, std::size_t N>
     static bool readvals(std::stringstream &s, std::array<T, N> &values);
 

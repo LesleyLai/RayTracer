@@ -59,6 +59,15 @@ public:
         direction_ = glm::normalize(direction);
     }
 
+    /**
+      * \brief Transforms the ray
+      */
+    friend Ray operator* (const glm::mat4& transform, Ray rhs) {
+        glm::vec3 origin(transform * glm::vec4(rhs.origin_, 1));
+        glm::vec3 direction(transform * glm::vec4(rhs.direction_, 1));
+        return Ray(origin, direction);
+    }
+
 private:
     glm::vec3 origin_; //The origin glm::vec3 of the ray.
     glm::vec3 direction_; // The direction of the ray.

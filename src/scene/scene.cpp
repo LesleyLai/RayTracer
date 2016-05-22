@@ -2,9 +2,9 @@
 #include "scene.hpp"
 
 Scene::Scene(size_t width, size_t height) :
-    rayTracer_{*this},
     width_{width},
     height_{height},
+    rayTracer_{*this},
     film_{width, height} {
 }
 
