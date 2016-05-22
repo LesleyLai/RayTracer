@@ -64,7 +64,7 @@ public:
       */
     friend Ray operator* (const glm::mat4& transform, Ray rhs) {
         glm::vec3 origin(transform * glm::vec4(rhs.origin_, 1));
-        glm::vec3 direction(transform * glm::vec4(rhs.direction_, 1));
+        glm::vec3 direction(transform * glm::vec4(rhs.direction_, 0));
         return Ray(origin, direction);
     }
 
