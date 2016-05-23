@@ -26,7 +26,6 @@ public:
     Ray(glm::vec3 origin, glm::vec3 direction) :
         origin_{origin},
         direction_{direction} {
-        glm::normalize(direction_);
     }
 
     /**

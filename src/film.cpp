@@ -30,7 +30,7 @@ void Film::commit(size_t x, size_t y, const ColorRGB &color) {
     buffer_[x + y  * width_] = color;
 }
 
-void Film::writeImage() {
+void Film::writeImage(std::string filename) {
     ImageExportor imageExportor;
-    imageExportor.exportImage(width_, height_, buffer_);
+    imageExportor.exportImage(width_, height_, buffer_, filename);
 }

@@ -45,7 +45,7 @@ void RayTracer::_trace(Ray &inputRay, int depth, ColorRGB &color) {
 
     if (intersect_flag) {
         LocalGeometry& localref = *local;
-        color = AMBIENT_COLOR;
+        color = ColorRGB(0, 0, 0);
 
         for (std::size_t i = 0; i != scene_.lightNumber(); ++i) {
             Ray lightray;
@@ -65,10 +65,8 @@ void RayTracer::_trace(Ray &inputRay, int depth, ColorRGB &color) {
                 }
             }
 
-            if (!shadowed) {
-                std::unique_ptr<Shader> shader {new BlinnPhongShader};
-                color += shader->shading(localref, inputRay, lightray, lightcolor, material.IlluminationInfo_);
-            }
+            std::unique_ptr<Shader> shader {new BlinnPhongShader};
+            color = shader->shading(localref, inputRay, lightray, lightcolor, material.IlluminationInfo_, shadowed);
 
         }
 

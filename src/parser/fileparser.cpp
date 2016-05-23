@@ -80,6 +80,8 @@ void FileParser::parse(std::ifstream &input) {
 
     Scene scene(640, 480);
 
+    std::string filename = "test.png";
+
     std::stack<mat4> matrixStack;
     matrixStack.push(mat4(1.0));  // identity
 
@@ -95,7 +97,13 @@ void FileParser::parse(std::ifstream &input) {
             std::stringstream s(line);
             s >> cmd;
 
-            if (cmd == "camera") {
+            if (cmd == "output") {
+                std::array<std::string, 1> input_values;
+                valid_flag = readvals(s, input_values);
+
+                filename = input_values[0];
+
+            } else if (cmd == "camera") {
                 std::array<float, 10> input_values;
                 valid_flag = readvals(s, input_values);
 
@@ -123,7 +131,6 @@ void FileParser::parse(std::ifstream &input) {
                 std::shared_ptr<Primitive> triangle(new Triangle(vertices[a], vertices[b], vertices[c]));
                 std::shared_ptr<SceneObject> object(new SceneObject(tmpMaterial));
                 object->addPrimitive(triangle);
-                object->setMaterial(tmpMaterial);
                 object->setTransform(matrixStack.top());
                 scene.addSceneObject(object);
 
@@ -137,7 +144,6 @@ void FileParser::parse(std::ifstream &input) {
                 std::shared_ptr<Primitive> sphere(new Sphere(r, center));
                 std::shared_ptr<SceneObject> object(new SceneObject(tmpMaterial));
                 object->addPrimitive(sphere);
-                object->setMaterial(tmpMaterial);
                 object->setTransform(matrixStack.top());
                 scene.addSceneObject(object);
 
@@ -145,7 +151,15 @@ void FileParser::parse(std::ifstream &input) {
                 // ignore this line
                 valid_flag = true;
 
-            } else if (cmd == "ambient") {
+            } else if (cmd == "emission") {
+                std::array<float, 3> input_values;
+                valid_flag = readvals(s, input_values);
+
+                ColorRGB emission(input_values[0], input_values[1], input_values[2]);
+                tmpMaterial.IlluminationInfo_.setEmissionComponent(emission);
+
+
+            }  else if (cmd == "ambient") {
                 std::array<float, 3> input_values;
                 valid_flag = readvals(s, input_values);
 
@@ -222,11 +236,17 @@ void FileParser::parse(std::ifstream &input) {
         }
     }
 
+    std::cout << "Parsing Complete" << std::endl;
+    std::cout << "the output file will be: " << filename << std::endl;
+
+
     try {
-        scene.render();
+        scene.render(filename);
     } catch (std::runtime_error e) {
         std::cerr << e.what() << std::endl;
         std::exit(-1);
     }
+
+
 
 }

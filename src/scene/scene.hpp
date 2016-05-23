@@ -18,7 +18,7 @@ public:
     /**
      * @brief The main render function
      */
-    void render();
+    void render(std::string filename);
 
 
     /*! \brief Returns the total number of primitives in the scene.

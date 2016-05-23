@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "blinnphongshader.hpp"
 
 BlinnPhongShader::BlinnPhongShader()
@@ -9,7 +11,8 @@ ColorRGB BlinnPhongShader::shading(const LocalGeometry &local,
                                          const Ray &inputray,
                                          const Ray &lightRay,
                                          const ColorRGB &lightColor,
-                                         const PhongIlluminationInfo &illuminationinfo) {
+                                         const PhongIlluminationInfo &illuminationinfo,
+                                         bool shadowed) {
     auto n = local.normal();
     auto l = lightRay.direction();
 
@@ -17,11 +20,24 @@ ColorRGB BlinnPhongShader::shading(const LocalGeometry &local,
 
     float shininess = illuminationinfo.shininess();
 
-    auto diffuse = illuminationinfo.diffuseComponent();
-    auto specular = illuminationinfo.specularComponent();
+    auto emission = illuminationinfo.emissionComponent();
+    auto ambient = illuminationinfo.ambientComponent();
 
-    auto lambert = lightColor * diffuse * std::max(glm::dot(n, l), 0.0f);
-    auto phong = lightColor * specular * std::pow(std::max(glm::dot(n, half), 0.0f), shininess);
+    auto color = emission + ambient;
 
-    return lambert + phong;
+    if (shadowed) {
+        auto diffuse = illuminationinfo.diffuseComponent();
+        auto specular = illuminationinfo.specularComponent();
+
+        auto nDotL= glm::dot(n, l);
+        auto lambert = lightColor * diffuse * std::max(nDotL, 0.0f);
+
+        auto nDotH = glm::dot(n, half);
+        auto phong = lightColor * specular * std::pow(std::max(nDotH, 0.0f), shininess);
+
+        color += lambert;
+        color += phong;
+    }
+
+    return color;
 }

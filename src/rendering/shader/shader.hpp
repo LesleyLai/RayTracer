@@ -19,7 +19,8 @@ public:
                                    const Ray &inputray,
                                    const Ray &lightRay,
                                    const ColorRGB &lightColor,
-                                   const PhongIlluminationInfo &lightinfo) = 0;
+                                   const PhongIlluminationInfo &lightinfo,
+                                   bool shadowed) = 0;
 };
 
 #endif // SHADER_HPP

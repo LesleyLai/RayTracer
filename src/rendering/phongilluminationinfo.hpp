@@ -7,11 +7,16 @@ class PhongIlluminationInfo {
 public:
     PhongIlluminationInfo();
 
-    PhongIlluminationInfo(ColorRGB &diffuse,
+    PhongIlluminationInfo(ColorRGB &emission,
+                          ColorRGB &diffuse,
                           ColorRGB &specular,
                           ColorRGB &ambient,
                           ColorRGB &mirror,
                           float shininess);
+
+
+    ColorRGB emissionComponent() const;
+    void setEmissionComponent(const ColorRGB &emissionComponent);
 
     ColorRGB diffuseComponent() const;
     void setDiffuseComponent(const ColorRGB &diffuseComponent);
@@ -28,7 +33,9 @@ public:
     float shininess() const;
     void setShininess(float shininess);
 
+
 private:
+    ColorRGB emissionComponent_;
     ColorRGB diffuseComponent_;
     ColorRGB specularComponent_;
     ColorRGB ambientComponent_;

@@ -10,7 +10,10 @@ class ImageExportor
 public:
     ImageExportor();
 
-    void exportImage(int width, int height, std::vector<ColorRGB> &buffer);
+    void exportImage(int width,
+                     int height,
+                     std::vector<ColorRGB> &buffer,
+                     std::string filename);
 };
 
 #endif // IMAGEEXPORTOR_HPP

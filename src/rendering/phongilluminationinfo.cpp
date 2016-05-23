@@ -10,11 +10,13 @@ PhongIlluminationInfo::PhongIlluminationInfo() :
 
 }
 
-PhongIlluminationInfo::PhongIlluminationInfo(ColorRGB &diffuse,
+PhongIlluminationInfo::PhongIlluminationInfo(ColorRGB &emission,
+                                             ColorRGB &diffuse,
                                              ColorRGB &specular,
                                              ColorRGB &ambient,
                                              ColorRGB &mirror,
                                              float shininess) :
+    emissionComponent_{emission},
     diffuseComponent_{diffuse},
     specularComponent_{specular},
     ambientComponent_{ambient},
@@ -23,52 +25,51 @@ PhongIlluminationInfo::PhongIlluminationInfo(ColorRGB &diffuse,
 
 }
 
-ColorRGB PhongIlluminationInfo::diffuseComponent() const
-{
+
+ColorRGB PhongIlluminationInfo::emissionComponent() const {
+    return emissionComponent_;
+}
+
+void PhongIlluminationInfo::setEmissionComponent(const ColorRGB &emissionComponent) {
+    emissionComponent_ = emissionComponent;
+}
+
+ColorRGB PhongIlluminationInfo::diffuseComponent() const {
     return diffuseComponent_;
 }
 
-void PhongIlluminationInfo::setDiffuseComponent(const ColorRGB &diffuseComponent)
-{
+void PhongIlluminationInfo::setDiffuseComponent(const ColorRGB &diffuseComponent) {
     diffuseComponent_ = diffuseComponent;
 }
 
-ColorRGB PhongIlluminationInfo::specularComponent() const
-{
+ColorRGB PhongIlluminationInfo::specularComponent() const {
     return specularComponent_;
 }
 
-void PhongIlluminationInfo::setSpecularComponent(const ColorRGB &specularComponent)
-{
+void PhongIlluminationInfo::setSpecularComponent(const ColorRGB &specularComponent) {
     specularComponent_ = specularComponent;
 }
 
-ColorRGB PhongIlluminationInfo::ambientComponent() const
-{
+ColorRGB PhongIlluminationInfo::ambientComponent() const {
     return ambientComponent_;
 }
 
-void PhongIlluminationInfo::setAmbientComponent(const ColorRGB &ambientComponent)
-{
+void PhongIlluminationInfo::setAmbientComponent(const ColorRGB &ambientComponent) {
     ambientComponent_ = ambientComponent;
 }
 
-ColorRGB PhongIlluminationInfo::mirrorComponent() const
-{
+ColorRGB PhongIlluminationInfo::mirrorComponent() const {
     return mirrorComponent_;
 }
 
-void PhongIlluminationInfo::setMirrorComponent(const ColorRGB &mirrorComponent)
-{
+void PhongIlluminationInfo::setMirrorComponent(const ColorRGB &mirrorComponent) {
     mirrorComponent_ = mirrorComponent;
 }
 
-float PhongIlluminationInfo::shininess() const
-{
+float PhongIlluminationInfo::shininess() const {
     return shininess_;
 }
 
-void PhongIlluminationInfo::setShininess(float shininess)
-{
+void PhongIlluminationInfo::setShininess(float shininess) {
     shininess_ = shininess;
 }

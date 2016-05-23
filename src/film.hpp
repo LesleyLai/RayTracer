@@ -18,7 +18,7 @@ public:
     /**
      * \brief Output image from buffer to a file.
      */
-    void writeImage();
+    void writeImage(std::string filename);
 
 private:
     size_t width_;

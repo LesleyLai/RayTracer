@@ -12,7 +12,8 @@ public:
                                    const Ray &inputray,
                                    const Ray &lightRay,
                                    const ColorRGB &lightColor,
-                                   const PhongIlluminationInfo &illuminationinfo) override;
+                                   const PhongIlluminationInfo &illuminationinfo,
+                                   bool shadowed) override;
 };
 
 #endif // BLINNPHONGSHADER_HPP

@@ -1,3 +1,6 @@
+#include <chrono>
+#include <iostream>
+
 #include "../ray.hpp"
 #include "scene.hpp"
 
@@ -8,7 +11,9 @@ Scene::Scene(size_t width, size_t height) :
     film_{width, height} {
 }
 
-void Scene::render() {
+void Scene::render(std::string filename) {
+    auto startTime = std::chrono::system_clock::now();
+
     Sampler sampler(width_, height_);
     auto samples = sampler.generateSampleSet();
 
@@ -16,16 +21,22 @@ void Scene::render() {
     ColorRGB color;
 
     for (auto sample : samples) {
+        auto now = std::chrono::system_clock::now();
+        auto deltatime = now - startTime;
+        if (deltatime > std::chrono::seconds(30)) {
+            startTime = now;
+            std::cout << (sample.x * sample.y / width_ / height_ * 100) << "% complete" << std::endl;
+        }
+
         if (main_camera_ == nullptr) throw std::runtime_error("Cannot find a camera in the scene");
         main_camera_->generateRay(glm::vec2(width_, height_), sample, ray);
 
-        color = ColorRGB(sample.x / width_, sample.x / height_, sample.y / height_);
         rayTracer_.trace(ray, color);
 
         film_.commit(sample.x, sample.y, color);
     }
 
-    film_.writeImage();
+    film_.writeImage(filename);
 }
 
 

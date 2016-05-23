@@ -11,7 +11,10 @@ ImageExportor::ImageExportor() {
 
 }
 
-void ImageExportor::exportImage(int width, int height, std::vector<ColorRGB> &buffer) {
+void ImageExportor::exportImage(int width,
+                                int height,
+                                std::vector<ColorRGB> &buffer,
+                                std::string filename) {
     FreeImage_Initialise();
 
     FIBITMAP *bitmap = FreeImage_Allocate(width, height, BIT_PER_PIXEL);
@@ -27,8 +30,6 @@ void ImageExportor::exportImage(int width, int height, std::vector<ColorRGB> &bu
             FreeImage_SetPixelColor(bitmap, x, y, &color);
         }
     }
-
-    std::string filename = "testimage.png";
 
     if (FreeImage_Save(FIF_PNG, bitmap, filename.c_str(), 0)) {
         std::cout << "Successfully saved image \"" << filename << "\"" << std::endl;
