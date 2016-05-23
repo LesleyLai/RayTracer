@@ -8,7 +8,7 @@ class Scene;
 
 class RayTracer {
 public:
-    explicit RayTracer(Scene &inputScene);
+    explicit RayTracer(Scene &inputScene, int maxDepth);
 
     ///
     /// \brief The main recursive ray tracing function
@@ -23,6 +23,8 @@ private:
     /*! \brief Reference back to the scene.
      */
     Scene &scene_;
+
+    int maxDepth_;
 };
 
 #endif // RAYTRACER_HPP

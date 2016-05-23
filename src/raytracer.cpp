@@ -10,13 +10,14 @@
 constexpr ColorRGB BACKGROUND_COLOR = ColorRGB(0, 0, 0);
 constexpr ColorRGB AMBIENT_COLOR = ColorRGB(.2, .2, .2);
 
-constexpr float REFLECT_PAREMETER = .3;
+constexpr float REFLECT_PAREMETER = 1;
 
 constexpr float FIX_SELF_SHADOW_PARAMETER = .00001;
 
 
-RayTracer::RayTracer(Scene &inputScene) :
-    scene_{inputScene} {
+RayTracer::RayTracer(Scene &inputScene, int maxDepth) :
+    scene_{inputScene},
+    maxDepth_{maxDepth} {
 
 }
 
@@ -26,7 +27,7 @@ void RayTracer::trace(Ray &inputRay, ColorRGB &color) {
 }
 
 void RayTracer::_trace(Ray &inputRay, int depth, ColorRGB &color) {
-    if (depth == 5) {
+    if (depth == maxDepth_) {
         return;
     }
 
@@ -45,7 +46,7 @@ void RayTracer::_trace(Ray &inputRay, int depth, ColorRGB &color) {
 
     if (intersect_flag) {
         LocalGeometry& localref = *local;
-        color = ColorRGB(0, 0, 0);
+        color = AMBIENT_COLOR;
 
         for (std::size_t i = 0; i != scene_.lightNumber(); ++i) {
             Ray lightray;

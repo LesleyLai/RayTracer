@@ -3,7 +3,6 @@
 
 #include <memory>
 
-#include "../raytracer.hpp"
 #include "../film.hpp"
 #include "../sampler/sampler.hpp"
 #include "../camera.hpp"
@@ -18,7 +17,7 @@ public:
     /**
      * @brief The main render function
      */
-    void render(std::string filename);
+    void render(std::string filename, int maxDepth);
 
 
     /*! \brief Returns the total number of primitives in the scene.
@@ -65,7 +64,6 @@ private:
     size_t width_;
     size_t height_;
 
-    RayTracer rayTracer_;
     Film film_;
 
     std::vector<std::shared_ptr<Camera>> cameras_;
