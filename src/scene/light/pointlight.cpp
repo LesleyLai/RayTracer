@@ -1,6 +1,6 @@
 #include "pointlight.hpp"
 
-#include "../localgeometry.hpp"
+#include "../hit.hpp"
 #include "../../ray.hpp"
 
 PointLight::PointLight(glm::vec3 position, ColorRGB color) :
@@ -9,9 +9,9 @@ PointLight::PointLight(glm::vec3 position, ColorRGB color) :
 
 }
 
-void PointLight::generateLightRay(const LocalGeometry &local,
+void PointLight::generateLightRay(const glm::vec3 &position,
                                         Ray &lightRay,
                                         ColorRGB &lightcolor) const {
-    lightRay = Ray(local.position(), position_ - local.position());
+    lightRay = Ray(position, this->position_ - position);
     lightcolor = color_;
 }

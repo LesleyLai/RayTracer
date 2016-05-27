@@ -8,8 +8,7 @@ Triangle::Triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c) : vertices_ {a, b, c} 
 }
 
 bool Triangle::intersect(const Ray &ray,
-                         std::unique_ptr<LocalGeometry> &local,
-                         float &last_t_cache) const {
+                         Hit &hit) const {
     /*
      * The implementation of this method consults "Fundamentals Of Computer
      * Graphics 3rd edition" 4.4.2 Ray-Triangle Intersection as a reference
@@ -46,7 +45,7 @@ bool Triangle::intersect(const Ray &ray,
 
     // compute t
     float t = -(f*akMinusJb + e*jcMinusAl + d*blMinusKc) / M;
-    if ((t < 0) || (t > last_t_cache)) return false;
+    if ((t < 0) || (t > hit.t())) return false;
 
     // compute gamma
     float gamma = (i*akMinusJb + h*jcMinusAl + g*blMinusKc) / M;
@@ -58,9 +57,7 @@ bool Triangle::intersect(const Ray &ray,
 
     auto n = triangleNormal();
 
-    auto p = ve + t * vd;
-    last_t_cache = t;
-    local = std::unique_ptr<LocalGeometry>(new LocalGeometry(p, n));
+    hit = Hit(n, t);
     return true;
 
 

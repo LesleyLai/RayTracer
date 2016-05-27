@@ -31,51 +31,60 @@ void RayTracer::_trace(Ray &inputRay, int depth, ColorRGB &color) {
         return;
     }
 
-    auto t_cache = std::numeric_limits<float>::infinity();
     bool intersect_flag = false;
 
-    std::unique_ptr<LocalGeometry> local;
+    Hit hit(glm::vec3(), std::numeric_limits<float>::infinity());
     Material material;
 
     for(std::size_t i = 0; i != scene_.SceneObjectNumber(); ++i) {
-        if (scene_.getSceneObject(i).intersect(inputRay, local, t_cache)) {
+        if (scene_.getSceneObject(i).intersect(inputRay, hit)) {
             material = scene_.getSceneObject(i).material();
             intersect_flag = true;
         }
     }
 
+
     if (intersect_flag) {
-        LocalGeometry& localref = *local;
+        auto hitPosition = inputRay.pointAtT(hit.t());
         color = AMBIENT_COLOR;
 
         for (std::size_t i = 0; i != scene_.lightNumber(); ++i) {
             Ray lightray;
             ColorRGB lightcolor;
-            scene_.getLight(i).generateLightRay(localref, lightray, lightcolor);
 
-    //      Shadowing
+            scene_.getLight(i).generateLightRay(hitPosition, lightray, lightcolor);
+
+            //Shadowing
             bool shadowed = false;
 
             // Prevent self shadowing
-            auto fixedLightray = lightray;
+            auto modifiedLightray = lightray;
 
-            fixedLightray.setOrigin(lightray.origin() + localref.normal() * FIX_SELF_SHADOW_PARAMETER);
+            modifiedLightray.setOrigin(lightray.origin()
+                                       + hit.normal() * FIX_SELF_SHADOW_PARAMETER);
+
             for (std::size_t j = 0; j != scene_.SceneObjectNumber(); ++j) {
-                if (scene_.getSceneObject(j).intersect(fixedLightray)) {
+                if (scene_.getSceneObject(j).intersect(modifiedLightray)) {
                     shadowed = true;
                 }
             }
 
             std::unique_ptr<Shader> shader {new BlinnPhongShader};
-            color = shader->shading(localref, inputRay, lightray, lightcolor, material.IlluminationInfo_, shadowed);
+            color = shader->shading(hit,
+                                    inputRay,
+                                    lightray,
+                                    lightcolor,
+                                    material.IlluminationInfo_,
+                                    shadowed);
 
         }
 
-        Ray reflexRay {localref.position() + localref.normal() * FIX_SELF_SHADOW_PARAMETER,
-                    localref.normal() + localref.normal() - inputRay.direction()};
+        Ray reflexRay {hitPosition + hit.normal() * FIX_SELF_SHADOW_PARAMETER,
+                    hit.normal() + hit.normal() - inputRay.direction()};
 
         auto color_reflex = BACKGROUND_COLOR;
         _trace(reflexRay, depth + 1, color_reflex);
         color += color_reflex * REFLECT_PAREMETER;
+
     }
 }

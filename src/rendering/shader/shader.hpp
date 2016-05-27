@@ -4,7 +4,7 @@
 #include "../../math/math.hpp"
 #include "../../color.hpp"
 #include "../../ray.hpp"
-#include "../../scene/localgeometry.hpp"
+#include "../../scene/hit.hpp"
 #include "../../rendering/material.hpp"
 
 /*!
@@ -15,7 +15,7 @@ class Shader
 public:
     Shader() {}
 
-    virtual ColorRGB shading(const LocalGeometry& local,
+    virtual ColorRGB shading(const Hit& local,
                                    const Ray &inputray,
                                    const Ray &lightRay,
                                    const ColorRGB &lightColor,

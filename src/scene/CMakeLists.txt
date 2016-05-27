@@ -6,6 +6,6 @@ set_subdir_sources(
     scene.cpp
     sceneobject.hpp
     sceneobject.cpp
-    localgeometry.hpp
-    localgeometry.cpp
+    hit.hpp
+    hit.cpp
     )

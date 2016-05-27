@@ -33,21 +33,25 @@ public:
       */
     glm::vec3 origin() const {
         return origin_;
-        }
+    }
 
     /**
       * \brief Sets origin of the ray.
       */
     void setOrigin(const glm::vec3 origin) {
         origin_ = origin;
-        }
+    }
 
     /**
       * \brief Gets direction of the ray.
       */
     glm::vec3 direction() const {
         return direction_;
-        }
+    }
+
+    glm::vec3 pointAtT(float t ) const {
+        return origin_ + direction_ * t;
+    }
 
     /**
       * \brief Sets direction of the ray.
@@ -55,7 +59,7 @@ public:
       * Direction is always a normalized vector. If you assign a vector of non unit length, it will be normalized.
       */
     void setDirection(const glm::vec3 direction) {
-        direction_ = glm::normalize(direction);
+        direction_ = direction;
     }
 
     /**

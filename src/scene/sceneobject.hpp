@@ -26,8 +26,7 @@ public:
      * so, return a pointer to the geometry of intersection point and normal.
      */
     bool intersect(const Ray& ray,
-                           std::unique_ptr<LocalGeometry> &local,
-                   float &last_t_cache) const;
+                           Hit &hit) const;
 
 
     Material material() const;

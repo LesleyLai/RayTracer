@@ -23,7 +23,7 @@ void Scene::render(std::string filename, int maxDepth) {
     for (auto sample : samples) {
         auto now = std::chrono::system_clock::now();
         auto deltatime = now - startTime;
-        if (deltatime > std::chrono::seconds(1)) {
+        if (deltatime > std::chrono::seconds(10)) {
             startTime = now;
             std::cout << ((sample.y + height_ * sample.x) / width_ / height_ * 100) << "% complete" << std::endl;
         }

@@ -8,7 +8,7 @@ class BlinnPhongShader : public Shader {
 public:
     BlinnPhongShader();
 
-    virtual ColorRGB shading(const LocalGeometry& local,
+    virtual ColorRGB shading(const Hit& local,
                                    const Ray &inputray,
                                    const Ray &lightRay,
                                    const ColorRGB &lightColor,

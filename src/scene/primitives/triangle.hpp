@@ -14,8 +14,7 @@ public:
      * so, return a pointer to the geometry of intersection point and normal.
      */
     virtual bool intersect(const Ray& ray,
-                           std::unique_ptr<LocalGeometry> &local,
-                           float &last_t_cache) const override;
+                           Hit &hit) const override;
 
 private:
     glm::vec3 vertices_[3];

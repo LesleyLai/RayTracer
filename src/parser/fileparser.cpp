@@ -19,6 +19,7 @@
 #include "../rendering/material.hpp"
 
 using glm::vec3;
+using glm::vec4;
 using glm::mat4;
 
 namespace FileParserDetails {
@@ -135,7 +136,9 @@ void FileParser::parse(std::ifstream &input) {
                 auto b = input_values[1];
                 auto c = input_values[2];
 
-                std::shared_ptr<Primitive> triangle(new Triangle(vertices[a], vertices[b], vertices[c]));
+                std::shared_ptr<Primitive> triangle(new Triangle(vertices[a],
+                                                                 vertices[b],
+                                                                 vertices[c]));
                 std::shared_ptr<SceneObject> object(new SceneObject(tmpMaterial));
                 object->addPrimitive(triangle);
                 object->setTransform(matrixStack.top());
@@ -198,10 +201,14 @@ void FileParser::parse(std::ifstream &input) {
                 std::array<float, 6> input_values;
                 valid_flag = readvals(s, input_values);
 
-                vec3 position(input_values[0], input_values[1], input_values[2]);
+                vec3 position(
+                            vec4(input_values[0], input_values[1], input_values[2], 1)
+                            * matrixStack.top());
+
                 ColorRGB color(input_values[3], input_values[4], input_values[5]);
 
                 std::shared_ptr<Light> point_light(new PointLight(position, color));
+
                 scene.addLight(point_light);
 
             } else if (cmd == "pushTransform") {

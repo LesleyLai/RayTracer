@@ -16,18 +16,23 @@ void SceneObject::addPrimitive(std::shared_ptr<Primitive> primitive) {
 }
 
 bool SceneObject::intersect(const Ray &ray) const {
+    Ray changedRay = inverse_transform_ * ray;
+
     for (std::shared_ptr<Primitive> primitive_ptr : primitives_) {
-        if (primitive_ptr->intersect(ray)) return true;
+        if (primitive_ptr->intersect(changedRay)) return true;
     }
     return false;
 }
 
-bool SceneObject::intersect(const Ray &ray, std::unique_ptr<LocalGeometry> &local, float &last_t_cache) const {
+bool SceneObject::intersect(const Ray &ray,
+                            Hit &hit) const {
     bool intersect_flag = false;
     Ray changedRay = inverse_transform_ * ray;
 
     for (std::shared_ptr<Primitive> primitive_ptr : primitives_) {
-        if (primitive_ptr->intersect(changedRay, local, last_t_cache)) intersect_flag = true;
+        if (primitive_ptr->intersect(changedRay, hit)) {
+            intersect_flag = true;
+        }
     }
     return intersect_flag;
 }

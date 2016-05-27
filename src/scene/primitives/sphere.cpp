@@ -8,7 +8,7 @@ Sphere::Sphere(float radius, glm::vec3 center) :
     center_{center} {
 }
 
-bool Sphere::intersect(const Ray &ray, std::unique_ptr<LocalGeometry> &local, float &last_t_cache) const {
+bool Sphere::intersect(const Ray &ray, Hit &hit) const {
     auto c = center_;
     auto e = ray.origin();
     auto d = ray.direction();
@@ -26,12 +26,12 @@ bool Sphere::intersect(const Ray &ray, std::unique_ptr<LocalGeometry> &local, fl
     if (negdDotec - delta > 0) {
         auto t = (negdDotec - delta) / dDotd;
 
-        if (last_t_cache < t) return false;
-        last_t_cache = t;
+        if (hit.t() < t) return false;
 
-        glm::vec3 p = e + d * t;
+        auto p = e + d * t;
+        auto n = p - c;
 
-        local = std::unique_ptr<LocalGeometry>(new LocalGeometry(p, p - c));
+        hit = Hit(n, t);
         return true;
     }
     return false;

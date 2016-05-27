@@ -1,9 +1,11 @@
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
+#include "glm/glm.hpp"
+
 #include "../../color.hpp"
 
-class LocalGeometry;
+class Hit;
 class Ray;
 
 /**
@@ -16,11 +18,11 @@ public:
     /*!
      * \brief This is an abstract class that will generate a ray starting from
      * the position stored in local to the position of the light source.
-     * \param local The position of where the light ray started
+     * \param position The position of where the light ray started
      * \param lightRay The generated ray
      * \param lightcolor The generated light color
      */
-    virtual void generateLightRay(const LocalGeometry& local,
+    virtual void generateLightRay(const glm::vec3 &position,
                                   Ray& lightRay,
                                   ColorRGB& lightcolor) const = 0;
 };
