@@ -1,7 +1,7 @@
 #include "hit.hpp"
 
 Hit::Hit(glm::vec3 normal, float t) :
-    normal_{glm::normalize(normal)},
+    normal_{normal},
     t_{t} {
 }
 
@@ -12,7 +12,7 @@ glm::vec3 Hit::normal() const
 }
 
 void Hit::setNormal(const glm::vec3 &normal) {
-    normal_ = glm::normalize(normal);
+    normal_ = normal;
 }
 
 float Hit::t() const

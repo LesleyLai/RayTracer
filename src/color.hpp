@@ -64,7 +64,7 @@ struct Color<float, ColorType::RGB> {
     }
 
     constexpr Color operator+(const Color &rhs) const {
-        return Color (r+rhs.r, g+rhs.g, b+rhs.b);
+        return Color(r+rhs.r, g+rhs.g, b+rhs.b);
     }
 
     constexpr Color operator-(const Color &rhs) const {
@@ -72,7 +72,7 @@ struct Color<float, ColorType::RGB> {
     }
 
     constexpr Color operator*(const Color &rhs) const {
-        return Color (r*rhs.r, g*rhs.g, b*rhs.b);
+        return Color(r*rhs.r, g*rhs.g, b*rhs.b);
     }
 
     constexpr Color operator*(const float scalar) const {
