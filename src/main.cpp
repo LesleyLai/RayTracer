@@ -4,9 +4,6 @@
 
 #include "parser/fileparser.hpp"
 #include "scene/scene.hpp"
-#include "scene/light/pointlight.hpp"
-
-#include "scene/primitives/sphere.hpp"
 
 void printTotallyTimeCost(std::chrono::duration<double> elapsedTimes);
 

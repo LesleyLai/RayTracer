@@ -8,7 +8,7 @@
 #include "../camera.hpp"
 
 #include "sceneobject.hpp"
-#include "light/light.hpp"
+#include "light.hpp"
 
 class Scene {
 public:

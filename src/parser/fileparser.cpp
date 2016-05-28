@@ -10,7 +10,8 @@
 #include "fileparser.hpp"
 
 #include "../scene/scene.hpp"
-#include "../scene/light/pointlight.hpp"
+
+#include "../scene/light.hpp"
 
 #include "../scene/primitives/sphere.hpp"
 #include "../scene/primitives/triangle.hpp"
@@ -207,9 +208,23 @@ void FileParser::parse(std::ifstream &input) {
 
                 ColorRGB color(input_values[3], input_values[4], input_values[5]);
 
-                std::shared_ptr<Light> point_light(new PointLight(position, color));
+                std::shared_ptr<Light> pointLight(new PointLight(position, color));
 
-                scene.addLight(point_light);
+                scene.addLight(pointLight);
+
+            } else if (cmd == "directional") {
+                std::array<float, 6> input_values;
+                valid_flag = readvals(s, input_values);
+
+                vec3 direction(
+                            vec4(input_values[0], input_values[1], input_values[2], 1)
+                            * matrixStack.top());
+
+                ColorRGB color(input_values[3], input_values[4], input_values[5]);
+
+                std::shared_ptr<Light> directionaLight(new DirectionalLight(direction, color));
+
+                scene.addLight(directionaLight);
 
             } else if (cmd == "pushTransform") {
                 matrixStack.push(matrixStack.top());

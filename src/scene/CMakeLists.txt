@@ -1,7 +1,7 @@
 add_subdirectory(primitives)
-add_subdirectory(light)
 
 set_subdir_sources(
+    light.hpp
     scene.hpp
     scene.cpp
     sceneobject.hpp
